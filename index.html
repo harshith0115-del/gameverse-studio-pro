@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08152c">
+<title>GameVerse Studio</title>
+<style>
+:root{--bg:#071326;--panel:#101f3b;--panel2:#142747;--line:#284567;--cyan:#28d7f2;--purple:#a65cff;--text:#eef7ff;--muted:#a9bfd8;--green:#22e6b5}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(145deg,#06101f,#0b1932 60%,#10112a);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+button,input,select{font:inherit}button{border:0;border-radius:11px;padding:10px 13px;color:white;background:linear-gradient(110deg,#168eea,#9255ed);font-weight:700;cursor:pointer}button.secondary{background:#1a3154;border:1px solid #365477}button.danger{background:#702b45}button:active{transform:scale(.98)}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-bottom:1px solid #233e5d;background:#071326eF;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:clamp(18px,4vw,25px);letter-spacing:-.5px}.logo{font-size:28px}.brand span{background:linear-gradient(90deg,var(--cyan),#a878ff);color:transparent;background-clip:text}.header-actions{display:flex;gap:8px;flex-wrap:wrap}
+main{max-width:1400px;margin:auto;padding:18px}.hero{padding:22px;border:1px solid #274466;border-radius:20px;background:radial-gradient(circle at 85% 15%,#44296d 0,transparent 30%),linear-gradient(120deg,#102746,#0b1830);margin-bottom:16px}
+.hero h1{font-size:clamp(26px,5vw,42px);line-height:1.08;margin:0 0 10px}.hero p{color:var(--muted);max-width:720px;margin:0 0 16px}.pill{display:inline-flex;padding:5px 10px;border:1px solid #3c628a;border-radius:99px;color:#91f3ff;font-size:12px;margin-bottom:12px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.stat{padding:12px;border-radius:13px;background:#0a1930;border:1px solid #24405e}.stat strong{display:block;font-size:20px}.stat small{color:var(--muted)}
+.workspace{display:grid;grid-template-columns:230px minmax(0,1fr) 250px;gap:14px;align-items:start}.panel{background:linear-gradient(160deg,#112342,#0b1930);border:1px solid #294665;border-radius:16px;overflow:hidden}.panel h2{font-size:15px;margin:0;padding:13px 14px;border-bottom:1px solid #294665}.panel-body{padding:13px}
+.asset-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.asset{border:1px solid #345476;border-radius:12px;background:#172d4d;color:white;padding:12px 4px;text-align:center;cursor:grab;user-select:none}.asset .emoji{font-size:29px;display:block}.asset small{color:#bfd1e6}.asset:active{border-color:var(--cyan)}
+.tips{color:var(--muted);font-size:12px;line-height:1.5;margin-top:12px}.canvas-toolbar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px;border-bottom:1px solid #294665;flex-wrap:wrap}.canvas-toolbar strong{font-size:14px}.canvas-wrap{padding:10px;background:#071326}.canvas-wrap canvas{display:block;width:100%;height:auto;aspect-ratio:16/9;border-radius:10px;border:1px solid #41658c;background:#73d7f7;touch-action:manipulation}
+.editor-foot{display:flex;gap:8px;flex-wrap:wrap;padding:10px;border-top:1px solid #294665}.editor-foot button{font-size:12px;padding:9px 10px}
+.field{margin-bottom:12px}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}.field input,.field select{width:100%;padding:9px;border-radius:9px;border:1px solid #345476;background:#07172d;color:white;min-width:0}
+.object-list{display:grid;gap:6px;margin-top:10px}.object-row{display:flex;align-items:center;justify-content:space-between;gap:5px;background:#0b1a31;border:1px solid #2c4868;padding:8px;border-radius:9px;font-size:12px}.object-row.active{border-color:var(--cyan);background:#15304d}.object-row button{padding:5px 8px;font-size:11px}
+.section{margin-top:14px}.section h2{margin:0 0 9px;font-size:18px}.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.feature{padding:15px;background:#0c1b32;border:1px solid #243f5e;border-radius:14px}.feature b{display:block;margin-bottom:5px}.feature p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+.notice{font-size:12px;color:#9eb8d2;line-height:1.5;margin-top:10px}.hidden{display:none!important}.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);padding:11px 16px;border-radius:12px;background:#e9fff9;color:#06352c;font-weight:800;box-shadow:0 8px 30px #0008;z-index:10;max-width:90vw;text-align:center}
+@media(max-width:900px){.workspace{grid-template-columns:1fr 1fr}.center-panel{grid-column:1/-1;grid-row:1}.left-panel{grid-column:1}.right-panel{grid-column:2}.feature-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){header{padding:11px 12px;align-items:flex-start}.header-actions button{padding:8px;font-size:12px}.brand{font-size:17px}.logo{font-size:23px}main{padding:12px}.hero{padding:17px}.stats{grid-template-columns:1fr 1fr 1fr}.stat{padding:9px}.stat strong{font-size:17px}.workspace{grid-template-columns:1fr}.center-panel,.left-panel,.right-panel{grid-column:1}.center-panel{grid-row:1}.left-panel{grid-row:2}.right-panel{grid-row:3}.asset-grid{grid-template-columns:repeat(4,1fr)}.asset{font-size:12px}.asset .emoji{font-size:24px}.feature-grid{grid-template-columns:1fr}.canvas-toolbar{align-items:flex-start}.canvas-toolbar button{padding:8px;font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><div class="logo">🎮</div><span>GameVerse Studio</span></div>
+  <div class="header-actions"><button class="secondary" id="newBtn">＋ New</button><button class="secondary" id="saveBtn">Save</button><button id="playBtn">▶ Play Test</button></div>
+</header>
+<main>
+  <section class="hero">
+    <div class="pill">MOBILE-FRIENDLY 2D GAME BUILDER</div>
+    <h1>Create a game.<br><span style="color:var(--cyan)">No coding required.</span></h1>
+    <p>Add characters, platforms, coins and scenery to your scene. Move objects, adjust their properties, test the level, and save your project on this device.</p>
+    <button id="startBtn">Open Game Editor →</button>
+    <div class="stats"><div class="stat"><strong>🧩 Drag & place</strong><small>Build scenes visually</small></div><div class="stat"><strong>📱 Phone-ready</strong><small>Works in your browser</small></div><div class="stat"><strong>💾 Local save</strong><small>Save on this device</small></div></div>
+  </section>
+
+  <section class="workspace" id="editor">
+    <aside class="panel left-panel">
+      <h2>🧱 Game Objects</h2><div class="panel-body">
+        <div class="asset-grid">
+          <div class="asset" draggable="true" data-type="player"><span class="emoji">🧑‍🚀</span>Player</div>
+          <div class="asset" draggable="true" data-type="platform"><span class="emoji">🟩</span>Platform</div>
+          <div class="asset" draggable="true" data-type="coin"><span class="emoji">🪙</span>Coin</div>
+          <div class="asset" draggable="true" data-type="tree"><span class="emoji">🌳</span>Tree</div>
+          <div class="asset" draggable="true" data-type="cloud"><span class="emoji">☁️</span>Cloud</div>
+          <div class="asset" draggable="true" data-type="enemy"><span class="emoji">👾</span>Enemy</div>
+          <div class="asset" draggable="true" data-type="star"><span class="emoji">⭐</span>Star</div>
+          <div class="asset" draggable="true" data-type="ground"><span class="emoji">🟫</span>Ground</div>
+        </div>
+        <p class="tips">Tap an object to add it to the scene. On the canvas, tap an object to select it, then drag it to reposition it. You can also use the object list below.</p>
+        <div class="field"><label>Scene background</label><select id="background"><option value="sky">Sunny sky</option><option value="space">Space</option><option value="sunset">Sunset</option></select></div>
+        <button class="secondary" id="addStarter" style="width:100%">＋ Add starter level</button>
+      </div>
+    </aside>
+
+    <section class="panel center-panel">
+      <div class="canvas-toolbar"><strong>🎨 Scene Editor <span style="color:var(--muted);font-weight:400">· 16:9</span></strong><div style="display:flex;gap:6px"><button class="secondary" id="undoBtn">Undo</button><button id="fitBtn">Reset View</button></div></div>
+      <div class="canvas-wrap"><canvas id="gameCanvas" width="960" height="540" aria-label="Game scene editor"></canvas></div>
+      <div class="editor-foot"><button class="secondary" id="deleteBtn">🗑 Delete selected</button><button class="secondary" id="duplicateBtn">▣ Duplicate</button><button class="secondary" id="exportBtn">⇩ Export project JSON</button><button class="secondary" id="importBtn">⇧ Import JSON</button><input type="file" id="importFile" accept=".json,application/json" class="hidden"></div>
+    </section>
+
+    <aside class="panel right-panel">
+      <h2>⚙️ Properties</h2><div class="panel-body">
+        <div id="noSelection" class="tips">Select an object on the canvas or in the list to edit its properties.</div>
+        <div id="properties" class="hidden">
+          <div class="field"><label>Object type</label><input id="propType" readonly></div>
+          <div class="field"><label>Name</label><input id="propName" maxlength="30"></div>
+          <div class="field"><label>X position (0–960)</label><input id="propX" type="number" min="0" max="960"></div>
+          <div class="field"><label>Y position (0–540)</label><input id="propY" type="number" min="0" max="540"></div>
+          <div class="field"><label>Size</label><input id="propSize" type="range" min="20" max="150" value="60"></div>
+          <div class="field"><label>Rotation</label><input id="propRotation" type="range" min="0" max="360" value="0"></div>
+          <button id="applyProps" style="width:100%">Apply changes</button>
+        </div>
+        <div class="section"><h2 style="font-size:14px;margin-top:16px">Scene Objects</h2><div class="object-list" id="objectList"></div></div>
+        <p class="notice">Your project stays in this browser unless you export it. Clearing browser storage or using a different browser can remove local saves, so export a backup JSON.</p>
+      </div>
+    </aside>
+  </section>
+  <section class="section">
+    <h2>What you can do in this starter version</h2><div class="feature-grid">
+      <div class="feature"><b>🧩 Visual scene building</b><p>Add and position game objects, change their size and rotation, and duplicate or delete objects.</p></div>
+      <div class="feature"><b>🎮 Play test</b><p>Run a simple preview and move your character with the on-screen controls or keyboard.</p></div>
+      <div class="feature"><b>💾 Save and export</b><p>Save locally in your browser or export a JSON project file to keep a backup.</p></div>
+    </div>
+    <p class="notice">This is a working starter website, not a full commercial game engine yet. AI asset generation, accounts/cloud sync, multiplayer, and direct APK publishing need additional services and development.</p>
+  </section>
+</main>
+<div id="toast" class="toast hidden"></div>
+<script>
+const canvas=document.getElementById('gameCanvas'),ctx=canvas.getContext('2d');
+const labels={player:'Player',platform:'Platform',coin:'Coin',tree:'Tree',cloud:'Cloud',enemy:'Enemy',star:'Star',ground:'Ground'};
+const emoji={player:'🧑‍🚀',platform:'🟩',coin:'🪙',tree:'🌳',cloud:'☁️',enemy:'👾',star:'⭐',ground:'🟫'};
+let objects=[],selected=null,background='sky',playing=false,score=0,undoStack=[],dragging=null,lastPointer=null,playerX=130,playerY=370;
+const defaultObjects=()=>[
+{id:1,type:'player',name:'Player',x:140,y:390,size:58,rotation:0},
+{id:2,type:'platform',name:'Platform 1',x:230,y:475,size:110,rotation:0},
+{id:3,type:'platform',name:'Platform 2',x:490,y:390,size:100,rotation:0},
+{id:4,type:'coin',name:'Coin 1',x:310,y:415,size:36,rotation:0},
+{id:5,type:'tree',name:'Tree 1',x:780,y:420,size:72,rotation:0},
+{id:6,type:'cloud',name:'Cloud 1',x:300,y:105,size:65,rotation:0},
+{id:7,type:'ground',name:'Ground',x:480,y:515,size:960,rotation:0}
+];
+objects=defaultObjects();let nextId=8;
+function snapshot(){undoStack.push(JSON.stringify({objects,background}));if(undoStack.length>30)undoStack.shift()}
+function toast(s){let t=document.getElementById('toast');t.textContent=s;t.classList.remove('hidden');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.add('hidden'),2100)}
+function drawBackground(){if(background==='space'){let g=ctx.createLinearGradient(0,0,0,540);g.addColorStop(0,'#10103d');g.addColorStop(1,'#35215d');ctx.fillStyle=g;ctx.fillRect(0,0,960,540);for(let i=0;i<70;i++){ctx.fillStyle=i%3?'#fff':'#83eaff';ctx.fillRect((i*137)%960,(i*71)%440,2,2)}}else if(background==='sunset'){let g=ctx.createLinearGradient(0,0,0,540);g.addColorStop(0,'#ffad89');g.addColorStop(.55,'#df7bc4');g.addColorStop(1,'#553e8b');ctx.fillStyle=g;ctx.fillRect(0,0,960,540);ctx.fillStyle='#ffdf92';ctx.beginPath();ctx.arc(760,120,55,0,Math.PI*2);ctx.fill()}else{let g=ctx.createLinearGradient(0,0,0,540);g.addColorStop(0,'#6dd8ff');g.addColorStop(1,'#d4f9ff');ctx.fillStyle=g;ctx.fillRect(0,0,960,540);ctx.fillStyle='#ffffffaa';[[130,90,30],[160,80,38],[192,92,25],[700,120,30],[735,105,40],[770,120,26]].forEach(([x,y,r])=>{ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.fill()})}}
+function drawObject(o,outline=true){ctx.save();ctx.translate(o.x,o.y);ctx.rotate((o.rotation||0)*Math.PI/180);let s=o.size||50;
+if(o.type==='platform'||o.type==='ground'){ctx.fillStyle=o.type==='ground'?'#8a572f':'#4dbb47';ctx.fillRect(-s/2,-Math.max(14,s*.25)/2,s,Math.max(14,s*.25));ctx.fillStyle=o.type==='ground'?'#b97a43':'#7ce65e';ctx.fillRect(-s/2,-Math.max(14,s*.25)/2,s,Math.max(5,s*.08));ctx.fillStyle='#7b482a';if(o.type==='ground')ctx.fillRect(-s/2,0,s,25)}
+else {ctx.font=`${s}px system-ui, sans-serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(emoji[o.type]||'❔',0,0)}
+if(outline&&selected===o.id&&!playing){ctx.strokeStyle='#15f0ff';ctx.lineWidth=3;ctx.setLineDash([7,4]);ctx.strokeRect(-s/2-5,-s/2-5,s+10,s+10)}
+ctx.restore()}
+function render(){drawBackground();objects.forEach(o=>drawObject(o));if(playing){ctx.fillStyle='#061326cc';ctx.fillRect(0,0,190,50);ctx.fillStyle='white';ctx.font='bold 22px system-ui';ctx.fillText('Score: '+score,20,33);ctx.fillStyle='#ffffffcc';ctx.font='14px system-ui';ctx.fillText('← → move · ↑ jump',730,35)}}
+function updateList(){let list=document.getElementById('objectList');list.innerHTML='';objects.forEach(o=>{let row=document.createElement('div');row.className='object-row'+(selected===o.id?' active':'');let name=document.createElement('span');name.textContent=(emoji[o.type]||'▫️')+' '+o.name;let btn=document.createElement('button');btn.className='secondary';btn.textContent='Edit';btn.onclick=()=>selectObject(o.id);row.append(name,btn);row.onclick=()=>selectObject(o.id);list.append(row)});updateProps()}
+function selectObject(id){selected=id;updateList();render()}
+function updateProps(){let o=objects.find(x=>x.id===selected);document.getElementById('properties').classList.toggle('hidden',!o);document.getElementById('noSelection').classList.toggle('hidden',!!o);if(!o)return;document.getElementById('propType').value=labels[o.type]||o.type;document.getElementById('propName').value=o.name;document.getElementById('propX').value=Math.round(o.x);document.getElementById('propY').value=Math.round(o.y);document.getElementById('propSize').value=o.size;document.getElementById('propRotation').value=o.rotation||0}
+function addObject(type,x=480,y=270){snapshot();let count=objects.filter(o=>o.type===type).length+1;let o={id:nextId++,type,name:(labels[type]||type)+' '+count,x,y,size:type==='ground'?960:type==='platform'?110:55,rotation:0};objects.push(o);selected=o.id;updateList();render();toast(labels[type]+' added')}
+document.querySelectorAll('.asset').forEach(el=>{el.addEventListener('click',()=>addObject(el.dataset.type));el.addEventListener('dragstart',e=>e.dataTransfer.setData('text/plain',el.dataset.type))});
+canvas.addEventListener('dragover',e=>e.preventDefault());canvas.addEventListener('drop',e=>{e.preventDefault();let r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*960/r.width,y=(e.clientY-r.top)*540/r.height;addObject(e.dataTransfer.getData('text/plain'),x,y)});
+function pos(e){let r=canvas.getBoundingClientRect();return{x:(e.clientX-r.left)*960/r.width,y:(e.clientY-r.top)*540/r.height}}
+canvas.addEventListener('pointerdown',e=>{if(playing){lastPointer=pos(e);return}let p=pos(e),found=null;for(let i=objects.length-1;i>=0;i--){let o=objects[i],s=o.size||50;if(Math.abs(p.x-o.x)<s*.65+10&&Math.abs(p.y-o.y)<s*.65+10){found=o;break}}if(found){selectObject(found.id);dragging={id:found.id,dx:p.x-found.x,dy:p.y-found.y};canvas.setPointerCapture(e.pointerId)}else{selected=null;updateList();render()}});
+canvas.addEventListener('pointermove',e=>{if(!dragging||playing)return;let p=pos(e),o=objects.find(x=>x.id===dragging.id);if(o){o.x=Math.max(0,Math.min(960,p.x-dragging.dx));o.y=Math.max(0,Math.min(540,p.y-dragging.dy));updateProps();render()}});
+canvas.addEventListener('pointerup',()=>{if(dragging){dragging=null;updateList()}});
+document.getElementById('applyProps').onclick=()=>{let o=objects.find(x=>x.id===selected);if(!o)return;snapshot();o.name=document.getElementById('propName').value||labels[o.type];o.x=Math.max(0,Math.min(960,+document.getElementById('propX').value||0));o.y=Math.max(0,Math.min(540,+document.getElementById('propY').value||0));o.size=+document.getElementById('propSize').value;o.rotation=+document.getElementById('propRotation').value;updateList();render();toast('Properties updated')};
+document.getElementById('background').onchange=e=>{snapshot();background=e.target.value;render()};
+document.getElementById('deleteBtn').onclick=()=>{if(!selected)return toast('Select an object first');snapshot();objects=objects.filter(o=>o.id!==selected);selected=null;updateList();render();toast('Object deleted')};
+document.getElementById('duplicateBtn').onclick=()=>{let o=objects.find(x=>x.id===selected);if(!o)return toast('Select an object first');snapshot();let n={...o,id:nextId++,name:o.name+' copy',x:Math.min(920,o.x+35),y:Math.min(500,o.y+35)};objects.push(n);selected=n.id;updateList();render();toast('Object duplicated')};
+document.getElementById('undoBtn').onclick=()=>{let s=undoStack.pop();if(!s)return toast('Nothing to undo');let d=JSON.parse(s);objects=d.objects;background=d.background;selected=null;nextId=Math.max(1,...objects.map(o=>o.id))+1;document.getElementById('background').value=background;updateList();render();toast('Undo complete')};
+document.getElementById('fitBtn').onclick=()=>{render();toast('Scene view reset')};
+document.getElementById('newBtn').onclick=()=>{if(!confirm('Start a new project? Save your current work first if needed.'))return;snapshot();objects=[];selected=null;background='sky';document.getElementById('background').value='sky';updateList();render();toast('New project created')};
+document.getElementById('addStarter').onclick=()=>{snapshot();objects=defaultObjects();nextId=8;selected=null;background='sky';document.getElementById('background').value='sky';updateList();render();toast('Starter level added')};
+document.getElementById('startBtn').onclick=()=>document.getElementById('editor').scrollIntoView({behavior:'smooth'});
+function projectData(){return {app:'GameVerse Studio',version:1,background,objects,nextId,updatedAt:new Date().toISOString()}}
+function save(){try{localStorage.setItem('gameverse-project',JSON.stringify(projectData()));toast('Project saved on this device')}catch(e){toast('Save failed. Export JSON as a backup.')}}document.getElementById('saveBtn').onclick=save;
+function loadSaved(){try{let raw=localStorage.getItem('gameverse-project');if(raw){let d=JSON.parse(raw);if(d.objects){objects=d.objects;background=d.background||'sky';nextId=d.nextId||Math.max(1,...objects.map(o=>o.id))+1;document.getElementById('background').value=background}}}catch(e){}}
+document.getElementById('exportBtn').onclick=()=>{let blob=new Blob([JSON.stringify(projectData(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='gameverse-project.json';a.click();URL.revokeObjectURL(a.href);toast('Project JSON exported')};
+document.getElementById('importBtn').onclick=()=>document.getElementById('importFile').click();
+document.getElementById('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!Array.isArray(d.objects))throw 0;snapshot();objects=d.objects;background=d.background||'sky';nextId=d.nextId||Math.max(1,...objects.map(o=>o.id))+1;document.getElementById('background').value=background;selected=null;updateList();render();toast('Project imported')}catch(err){toast('That file is not a valid GameVerse project')}e.target.value=''};
+let keys={};window.addEventListener('keydown',e=>{keys[e.key]=true;if(playing&&['ArrowLeft','ArrowRight','ArrowUp',' '].includes(e.key))e.preventDefault()});window.addEventListener('keyup',e=>keys[e.key]=false);
+let playTimer=null;function playStep(){if(!playing)return;let p=objects.find(o=>o.type==='player');if(p){if(keys.ArrowLeft)p.x=Math.max(20,p.x-5);if(keys.ArrowRight)p.x=Math.min(940,p.x+5);if(keys.ArrowUp||keys[' '])p.y=Math.max(40,p.y-3);else p.y=Math.min(410,p.y+2);objects=objects.filter(o=>{if(o.type==='coin'&&Math.abs(o.x-p.x)<38&&Math.abs(o.y-p.y)<45){score++;return false}return true})}render();playTimer=requestAnimationFrame(playStep)}
+document.getElementById('playBtn').onclick=()=>{playing=!playing;let b=document.getElementById('playBtn');if(playing){score=0;b.textContent='■ Stop Test';b.classList.add('danger');toast('Play test started — use arrow keys or buttons below')}else{b.textContent='▶ Play Test';b.classList.remove('danger');cancelAnimationFrame(playTimer);render();updateList();toast('Play test stopped')}};
+const mobileControls=document.createElement('div');mobileControls.className='editor-foot';mobileControls.innerHTML='<button class="secondary" aria-label="Move left">← Left</button><button class="secondary" aria-label="Move right">Right →</button><button class="secondary" aria-label="Jump">↑ Jump</button>';document.querySelector('.center-panel').append(mobileControls);
+const cbuttons=mobileControls.querySelectorAll('button');function hold(btn,key){btn.addEventListener('pointerdown',e=>{e.preventDefault();keys[key]=true});['pointerup','pointerleave','pointercancel'].forEach(ev=>btn.addEventListener(ev,()=>keys[key]=false))}hold(cbuttons[0],'ArrowLeft');hold(cbuttons[1],'ArrowRight');hold(cbuttons[2],'ArrowUp');
+loadSaved();updateList();render();
+</script>
+</body>
+</html>
